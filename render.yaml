@@ -1,0 +1,16 @@
+# Déploiement gratuit du serveur C2 RAP sur Render.com
+# 1. Créez un compte sur https://render.com
+# 2. New > Blueprint > connectez ce dépôt GitHub
+# 3. URL finale : https://rap-relay.onrender.com  →  wss://rap-relay.onrender.com
+
+services:
+  - type: web
+    name: rap-relay
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build -w @salle/shared && npm run build -w @salle/relay
+    startCommand: node apps/relay/dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /

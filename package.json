@@ -1,0 +1,17 @@
+{
+  "name": "rap-relay-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serveur C2 RAP — déploiement Render.com",
+  "workspaces": [
+    "packages/shared",
+    "apps/relay"
+  ],
+  "scripts": {
+    "build:relay": "npm run build -w @salle/relay",
+    "start:relay": "npm run start -w @salle/relay"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
