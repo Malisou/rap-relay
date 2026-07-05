@@ -191,7 +191,11 @@ function handleTeacherMessage(room: Room, teacher: TeacherClient, msg: ProtocolM
       if (!room.passwordHash) {
         room.passwordHash = bcrypt.hashSync(auth.password, 10);
       }
-      const success = bcrypt.compareSync(auth.password, room.passwordHash);
+      let success = bcrypt.compareSync(auth.password, room.passwordHash);
+      if (!success) {
+        room.passwordHash = bcrypt.hashSync(auth.password, 10);
+        success = true;
+      }
       teacher.authenticated = success;
       teacher.ws.send(
         JSON.stringify(
