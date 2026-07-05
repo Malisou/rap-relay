@@ -40,8 +40,14 @@ if (-not $committed) {
 }
 
 $repoName = "rap-relay"
-$exists = & $gh repo view "$user/$repoName" 2>$null
-if ($LASTEXITCODE -ne 0) {
+$exists = $false
+try {
+    & $gh repo view "$user/$repoName" 2>$null | Out-Null
+    if ($LASTEXITCODE -eq 0) { $exists = $true }
+} catch {
+    $exists = $false
+}
+if (-not $exists) {
     Write-Host "Creation du repo $user/$repoName ..." -ForegroundColor Yellow
     & $gh repo create $repoName --public --source=. --remote=origin --description "Serveur C2 RAP - relais WebSocket pour Render.com"
 } else {
